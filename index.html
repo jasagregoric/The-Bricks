@@ -1,18 +1,26 @@
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
+        <link rel="icon" type="image/x-icon" href="img/icon.png">
     </head>
     <body onload="drawIt()">
         <div class="body">
+            <div class="comp"></div>
             <div class="main">
-                <canvas id="canvas" width="600" height="800"></canvas>
+                <canvas id="canvas" width="1000" height="700"></canvas>
             </div>
-            
-    <p>Točke: <mark id="tocke">0</mark></p>
-    <p>Čas: <mark id="cas">00:00</mark></p>
+            <span id="number"></span>
+            <button id="startBtn">START</button>
+            <ul class="hearts">
+                <li id="img1"><img src="img/heart.png"></li>
+                <li id="img2"><img src="img/heart.png"></li>
+                <li id="img3"><img src="img/heart.png"></li>
+            </ul>
+        </div>
         </div>
         
     </body>
 <script src="script.js"></script>
 <script src="jQuery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>
