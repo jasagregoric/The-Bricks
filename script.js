@@ -303,7 +303,7 @@ function end(tocke){
 document.addEventListener("DOMContentLoaded", function(){
   Swal.fire({
     title: 'Wecome!',
-    text: 'Your objective is to destroy as many bricks as you can to break into NSSAs server. You have 3 lives and if you\'ve lost a heart you\'ll recive another heart after compleating a level. Press the START button to begin. Good luck!',
+    text: 'Your objective is to destroy as many bricks as you can to break into NSSAs server. You have 3 lives. If you\'ve lost a life you\'ll recive another one after compleating a level. Press the START button to begin. Good luck!',
     confirmButtonText: 'I\'M READY',
     icon: 'info',
     background: 'black',
