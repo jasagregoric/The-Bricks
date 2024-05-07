@@ -7,7 +7,7 @@ function drawIt() {
     var r=10;
     var x = WIDTH/2-r;
     var y = 650;
-    var tocke;
+    tocke=0;
     var start=true;
     number=3;
     int=0;
@@ -256,7 +256,24 @@ function drawIt() {
                       init_paddle()
                     }else{
                       clearInterval(intervalId);
-                      end(tocke);
+                      enterName().then((result) => {
+                        console.log("ok");
+                        if (result.isConfirmed) {
+                            var player = result.value || 'Player';
+                            console.log(player);
+                            let storedDataString = localStorage.getItem("playerData2");
+                            let storedData = [];
+                            if (storedDataString) {
+                                storedData = JSON.parse(storedDataString);
+                            }
+                            const playerData = { name: player, score: tocke};
+                            storedData.push(playerData);
+                            storedDataString = JSON.stringify(storedData);
+
+                            localStorage.setItem("playerData2", storedDataString);
+                            end(tocke);
+                        }
+                      });
                     }
                   }
                 }
@@ -265,7 +282,7 @@ function drawIt() {
         y += dy;
       }
     }
-document.getElementById("startBtn").addEventListener("click", startGame);
+document.getElementById("startBtn").addEventListener("click", function(){startGame(); document.getElementById("opnScore").disabled = true;});
 
 function startGame(){
   document.getElementById("startBtn").disabled = true;
@@ -294,16 +311,16 @@ function end(tocke){
     color: '#2ec72c',
     confirmButtonColor: '#2ec72c',
     iconColor: '#2ec72c'
-  }).then(function(){ 
-    location.reload();
   }
- );
+ ).then(() => {
+  location.reload();
+ });
 }
 
 document.addEventListener("DOMContentLoaded", function(){
   Swal.fire({
     title: 'Wecome!',
-    text: 'Your objective is to destroy as many bricks as you can to break into NSSAs server. You have 3 lives. If you\'ve lost a life you\'ll recive another one after compleating a level. Press the START button to begin. Good luck!',
+    text: 'Your objective is to destroy as many bricks as you can to break into NSSAs server. You have 3 lives and if you\'ve lost a heart you\'ll recive another heart after compleating a level. Press the START button to begin. Good luck!',
     confirmButtonText: 'I\'M READY',
     icon: 'info',
     background: 'black',
@@ -312,3 +329,68 @@ document.addEventListener("DOMContentLoaded", function(){
     iconColor: '#2ec72c'
   })
 });
+document.getElementById("opnScore").addEventListener("click", function(){
+  document.getElementById("startBtn").disabled = true;
+  document.getElementById("score").style.visibility = "visible";
+  const storedDataString = localStorage.getItem("playerData2");
+  if (storedDataString) {
+    const storedData = JSON.parse(storedDataString);
+    storedData.sort((a, b) => b.score - a.score);
+    generateTable(storedData);
+  }
+});
+document.getElementById("close").addEventListener("click", function(){
+  document.getElementById("score").style.visibility = "hidden";
+  document.getElementById("startBtn").disabled = false;
+});
+function enterName() {
+  return Swal.fire({
+    title: 'Enter your name:',
+    input: 'text',
+    inputPlaceholder: 'Your name',
+    confirmButtonText: 'Submit',
+    color: '#2ec72c',
+    background: "black",
+    confirmButtonColor: "#2ec72c"
+  });
+}
+function generateTable(sortedData) {
+  const tableBody = document.getElementById("sco");
+  tableBody.innerHTML = "";
+
+  const row2 = document.createElement("tr");
+  row2.setAttribute("id", "mainTr");
+
+  const rankCell2 = document.createElement("td");
+  rankCell2.textContent = "Rank";
+  const nameCell2 = document.createElement("td");
+  nameCell2.textContent = "Name";
+  const scoreCell2 = document.createElement("td");
+  scoreCell2.textContent = "Score";
+
+  row2.appendChild(rankCell2);
+  row2.appendChild(nameCell2);
+  row2.appendChild(scoreCell2);
+
+  tableBody.appendChild(row2);
+
+  sortedData.forEach((playerData2, index) => {
+
+      const row = document.createElement("tr");
+      row.classList.add("row");
+
+      const rankCell = document.createElement("td");
+      rankCell.textContent = index + 1;
+      const nameCell = document.createElement("td");
+      nameCell.textContent = playerData2.name;
+      const scoreCell = document.createElement("td");
+      scoreCell.textContent = playerData2.score;
+
+      row.appendChild(rankCell);
+      row.appendChild(nameCell);
+      row.appendChild(scoreCell);
+      row.appendChild(scoreCell);
+
+      tableBody.appendChild(row);
+  });
+}
