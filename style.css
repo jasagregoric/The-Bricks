@@ -104,6 +104,7 @@ li{
     border: 7px solid rgb(173, 173, 173);
     border-radius: 3px;
     visibility: hidden;
+    top: 100px;
 }
 #inner{
     height: 500px;
